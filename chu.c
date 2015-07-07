@@ -1020,7 +1020,7 @@ int clocktime(int yday, int hour, int minute, int second, uint32_t rec_ui, uint3
  */
 void chu_second(int unit, struct chuunit *up, unsigned int update)
 {
-	l_fp	offset;
+	l_fp	offset, curtime;
 	char	synchar, qual, leapchar;
 	int	minset, i;
 	float	dtemp;
@@ -1041,8 +1041,9 @@ void chu_second(int unit, struct chuunit *up, unsigned int update)
 	 * is sent to clockstats even if invalid.
 	 */
 	chu_burst(up);
+    get_systime(&curtime);
 	//minset = ((current_time - update) + 30) / 60;
-	minset = ((get_systime() - update) + 30) / 60;
+	minset = ((curtime.l_ui - update) + 30) / 60;
 	dtemp = chu_major(up);
 	qual = 0;
 	if (up->status & (BFRAME | AFRAME))
